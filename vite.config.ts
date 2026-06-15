@@ -10,5 +10,8 @@ export default defineConfig({
       '/oauth2' : 'http://localhost:8080',
       '/logout' : 'http://localhost:8080',
     }
+  },
+  build: {
+    target: 'es2022'
   }
 })

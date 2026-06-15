@@ -44,6 +44,7 @@
     "mdast-util-to-hast": "^13.2.1",
     "rollup": "^4.59.0",
     "minimatch": "^9.0.7",
-    "flatted": "^3.4.2"
+    "flatted": "^3.4.2",
+    "esbuild": "^0.28.1"
   }
 }
