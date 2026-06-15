@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 const Footer: React.FC = () => {
-    const email = 'seo92js@gmail.com';
+    const email = 'contact.js.seo@gmail.com';
     const [copied, setCopied] = useState(false);
     const [showPrivacy, setShowPrivacy] = useState(false);
 
