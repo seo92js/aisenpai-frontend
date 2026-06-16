@@ -168,7 +168,8 @@ const ChangedFilesView: React.FC = () => {
 
         return {
             generalReview: typeof parsed.generalReview === 'string' ? parsed.generalReview : String(value),
-            comments: Array.isArray(parsed.comments) ? parsed.comments : []
+            comments: Array.isArray(parsed.comments) ? parsed.comments : [],
+            contextFiles: Array.isArray(parsed.contextFiles) ? parsed.contextFiles : []
         };
     };
 
@@ -358,6 +359,50 @@ const ChangedFilesView: React.FC = () => {
 
                 {reviewResult ? (
                     <div className="space-y-6">
+                        {/* Context Files Map */}
+                        {parsedReviewResult?.contextFiles && parsedReviewResult.contextFiles.length > 0 && (
+                            <div className="rounded-xl bg-white/[0.02] border border-white/5 p-4 text-left">
+                                <h3 className="text-[12px] font-semibold text-slate-300 mb-3 flex items-center gap-1.5">
+                                    <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                                    </svg>
+                                    AI 분석 컨텍스트 맵
+                                </h3>
+                                <div className="flex flex-wrap gap-2">
+                                    {parsedReviewResult.contextFiles.map((cFile, index) => {
+                                        const path = cFile.path || '';
+                                        const status = cFile.status || '';
+                                        const isRelated = cFile.type === 'related';
+                                        const isFetched = status.includes('content') || status.includes('read');
+                                        
+                                        const bgColor = isRelated 
+                                            ? (isFetched ? 'bg-purple-500/10 border-purple-500/20' : 'bg-slate-500/10 border-slate-500/10')
+                                            : 'bg-blue-500/10 border-blue-500/20';
+                                            
+                                        const textColor = isRelated
+                                            ? (isFetched ? 'text-purple-300' : 'text-slate-500')
+                                            : 'text-blue-300';
+                                            
+                                        const badgeText = isRelated ? '연관 파일' : '변경 파일';
+
+                                        return (
+                                            <div 
+                                                key={index} 
+                                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg border text-[11px] font-mono ${bgColor} ${textColor}`}
+                                                title={`${path} - 상태: ${status}`}
+                                            >
+                                                <span className={`px-1 py-0.2 rounded text-[9px] font-medium bg-black/40`}>
+                                                    {badgeText}
+                                                </span>
+                                                <span className="max-w-[200px] truncate">{path.split('/').pop() || ''}</span>
+                                                {status && <span className="text-slate-500 text-[10px]">({status})</span>}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
                         {/* General Review */}
                         <div className="markdown-body text-left rounded-xl bg-white/[0.02] border border-white/5 p-6 text-[13px]">
                             <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
