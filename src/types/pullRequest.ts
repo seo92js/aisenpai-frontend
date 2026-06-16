@@ -34,7 +34,14 @@ export interface ReviewComment {
     comment?: string;
 }
 
+export interface ContextFile {
+    path: string;
+    type: 'changed' | 'related';
+    status: string;
+}
+
 export interface AiReviewResult {
     generalReview: string;
     comments: ReviewComment[];
+    contextFiles?: ContextFile[];
 }
